@@ -7,7 +7,7 @@ using XtractLib.Twitter;
 
 internal class Program
 {
-    private const int NUM_STATUSES_TO_PULL = 10000000;
+    private const int NUM_STATUSES_TO_PULL = 100000;
     private const int WRITE_OUT_USERS_EVERY = 1000;
 
     // Methods
@@ -23,6 +23,8 @@ internal class Program
             string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
             provider.UseCGICredentials(twitter_api_username, twitter_api_password);
             provider.YieldThisMany = NUM_STATUSES_TO_PULL;
+
+            Console.Out.WriteLine("About to start reading from twitter - up to " + NUM_STATUSES_TO_PULL + " statuses.");
 
             EnglishStatusProvider englishProvider = new EnglishStatusProvider(provider);
             SortedDictionary<long, int> userMsgCounts = new SortedDictionary<long, int>();
@@ -42,7 +44,7 @@ internal class Program
                 }
                 string text = status.text.Replace("|", " ");
                 statusWriter.WriteLine(string.Concat(new object[] { user_id, "|", username, "|", text }));
-                Console.Out.WriteLine(string.Concat(new object[] { user_id, "|", username, "|", text }));
+                //Console.Out.WriteLine(string.Concat(new object[] { user_id, "|", username, "|", text }));
                 if (count++ > WRITE_OUT_USERS_EVERY)
                 {
                     count = 0;
