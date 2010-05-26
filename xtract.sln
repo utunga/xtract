@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xtract", "xtract\xtract.csproj", "{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtract.Tests", "Xtract.Tests\Xtract.Tests.csproj", "{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XtractLib", "XtractLib\XtractLib.csproj", "{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,45 @@
+
+
+
+
+1. pull out a list of names to sample, save to file
+2. load file
+    parse list of user_ids
+3. for each user_id
+      for each page of user status_timeline (count=200)
+          for each status *by that user
+			save user_id | username | tweet | num_followers
+             for each word in getwords(tweet)
+               save id | word | user_id | tweet_id | id | tweet_time_stamp
+
+3. get words:
+	  find urls
+	    - remove them from source
+         - add to words
+         - make request, follow redirects
+         - get the 'title' of response (if any)
+       find hash tags
+         - remove them from source
+         - add to words
+       find words
+         - add to words
+ 
+4. agregate word count across all users by word
+      - save word, wordcount, avg_word_frequency to cube?
+      - call wordcount/user_count = avg word frequency
+      - sort by word counts
+
+5. aggregate word count by user, by word
+      - work out total word count for user
+      - work out word count/total word count for each user
+      - save user, word_count, word_frequency
+
+6. for each word, for each user
+      - compute word_frequency/avg_word_frequency (log something?)
+      - save this as 'predictive' value
+      - aggregate prediction value (sum it) across all users
+      - sort by highest predictive value
+      - pick words at top of list to word picks
+
+7. for each user, for each picked word
+      - out put a vector of word_frequencyS

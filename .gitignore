@@ -1,0 +1,8 @@
+**/bin/**
+**/obj/**
+*resharper*
+*.user
+*.psess
+*.suo
+_ReSharper*
+gutenberg_en_bi_tri_grams/**
