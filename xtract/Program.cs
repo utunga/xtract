@@ -43,6 +43,7 @@ internal class Program
                     userMsgCounts[user_id] += 1;
                 }
                 string text = status.text.Replace("|", " ");
+                text = text.Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ");
                 statusWriter.WriteLine(string.Concat(new object[] { user_id, "|", username, "|", text }));
                 //Console.Out.WriteLine(string.Concat(new object[] { user_id, "|", username, "|", text }));
                 if (count++ > WRITE_OUT_USERS_EVERY)

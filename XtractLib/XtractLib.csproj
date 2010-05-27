@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,11 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Tokenize.cs" />
+    <Compile Include="Common\IUrlExpander.cs" />
+    <Compile Include="Common\Tokenizer.cs" />
+    <Compile Include="Common\UrlExpander.cs" />
     <Compile Include="IMessageReceiver.cs" />
     <Compile Include="IExceptionReceiver.cs" />
     <Compile Include="IMessageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trigram\LanguageModel.cs" />
     <Compile Include="Twitter\EnglishStatusProvider.cs" />
     <Compile Include="Twitter\TwitterStatus.cs" />
     <Compile Include="Twitter\TwitterStatusProvider.cs" />
