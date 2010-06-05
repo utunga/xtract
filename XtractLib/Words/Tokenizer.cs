@@ -6,13 +6,17 @@ namespace XtractLib.Words
 {
     public class Tokenizer
     {
+
+        public static string URL_REGEX = @"\b(https?)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]"; // be sure to specify IgnoreCase when you use this
         private static Regex _urlMatch;
         private static Regex _hashMatch;
         private static Regex _wordSplit;
 
         static Tokenizer()
         {
-            _urlMatch = new Regex(@"http\://\S+");
+            //way too easy ;))
+            //_urlMatch = new Regex(@"http\://\S+");
+            _urlMatch = new Regex(URL_REGEX, RegexOptions.IgnoreCase);
             _hashMatch = new Regex(@"#\w+");
             _wordSplit = new Regex(@"\W+");
         }
@@ -35,14 +39,14 @@ namespace XtractLib.Words
         public IEnumerable<string> Tokenize(string source)
         {
             IEnumerable<string> urls;
-            List<string> result = SplitWords(source, out urls);
+            List<string> result = ProcessIntoWordsAndUrls(source, out urls);
             //TODO: process urls
             result.AddRange(_expander.ProcessUrls(urls));
             return result;
 
         }
 
-        private List<string> SplitWords(string source, out IEnumerable<string> urls)
+        private static List<string> ProcessIntoWordsAndUrls(string source, out IEnumerable<string> urls)
         {
             var words = new List<string>();
             var tmpUrls = new List<string>();

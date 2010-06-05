@@ -28,13 +28,19 @@ namespace XtractLib.Net
             return _reader.ReadLine();
         }
 
+        public string ReadToEnd()
+        {
+            EnsureReader();
+            return _reader.ReadToEnd();
+        }
+
         private void EnsureReader()
         {
             if (_reader==null)
             {
                 _request = WebRequest.Create(_uri) as HttpWebRequest;
                 _request.ServicePoint.Expect100Continue = false;
-                _request.UserAgent = "TwadeMe";
+                //_request.UserAgent = "TwadeMe";
                 _request.Timeout = 10000;
                 if (_credentials != null)
                 {

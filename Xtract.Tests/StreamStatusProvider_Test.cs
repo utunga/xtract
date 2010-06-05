@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using NUnit.Framework;
 using XtractLib.Twitter;
 
 [TestFixture]
-public class TwitterStatusProvider_Test
+public class StreamStatusProvider_Test
 {
     // Fields
     private TwitterStreamStatusProvider _target;
@@ -14,7 +15,9 @@ public class TwitterStatusProvider_Test
     public void Setup()
     {
         _target = new TwitterStreamStatusProvider();
-        _target.UseCGICredentials("utunga", "a1ma4a5");
+        string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
+        string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
+        _target.UseCGICredentials(twitter_api_username, twitter_api_password);
         _target.YieldThisMany = 10;
     }
 

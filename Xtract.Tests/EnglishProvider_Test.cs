@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using NUnit.Framework;
 using XtractLib.Twitter;
 
@@ -11,7 +12,9 @@ public class EnglishStatusProvider_Test
     public void Setup()
     {
         TwitterStreamStatusProvider twitterStatusProvider = new TwitterStreamStatusProvider();
-        twitterStatusProvider.UseCGICredentials("utunga", "a1ma4a5");
+        string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
+        string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
+        twitterStatusProvider.UseCGICredentials(twitter_api_username, twitter_api_password);
         twitterStatusProvider.YieldThisMany = 5;
         _target = new EnglishStatusProvider(twitterStatusProvider, "data");
         _target.Threshold = 0.05d;
