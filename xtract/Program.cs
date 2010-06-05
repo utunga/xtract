@@ -26,7 +26,8 @@ internal class Program
 
             Console.Out.WriteLine("About to start reading from twitter - up to " + NUM_STATUSES_TO_PULL + " statuses.");
 
-            EnglishStatusProvider englishProvider = new EnglishStatusProvider(provider);
+            //expensive operation..
+            EnglishStatusProvider englishProvider = new EnglishStatusProvider(provider, "english_data");
             SortedDictionary<long, int> userMsgCounts = new SortedDictionary<long, int>();
             SortedDictionary<long, string> usernameLookup = new SortedDictionary<long, string>();
             foreach (TwitterStatus status in englishProvider.GetMessages())
@@ -57,7 +58,7 @@ internal class Program
                             user_id = userMsgCount.Key;
                             username = usernameLookup[user_id];
                             int msgCount = userMsgCount.Value;
-                            userWriter.WriteLine(string.Concat(new object[] { msgCount, " message|", user_id, "|", username }));
+                            userWriter.WriteLine(string.Concat(new object[] { msgCount, " messages|", user_id, "|", username }));
                         }
                         userWriter.Flush();
                         userWriter.Close();
