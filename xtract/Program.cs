@@ -18,7 +18,7 @@ internal class Program
         int count = 0;
         try
         {
-            TwitterStatusProvider provider = new TwitterStatusProvider();
+            TwitterStreamStatusProvider provider = new TwitterStreamStatusProvider();
             string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
             string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
             provider.UseCGICredentials(twitter_api_username, twitter_api_password);

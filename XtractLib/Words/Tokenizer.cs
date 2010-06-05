@@ -17,11 +17,12 @@ namespace XtractLib.Words
             _wordSplit = new Regex(@"\W+");
         }
 
-        public static IEnumerable<string> GetWords(string source)
+        //Helper static method 
+        public static string[] GetWords(string source)
         {
             IUrlExpander expander = new UrlExpander();
             Tokenizer tokenizer = new Tokenizer(expander);
-            return tokenizer.Tokenize(source);
+            return new List<string>(tokenizer.Tokenize(source)).ToArray();
         }
 
         private IUrlExpander _expander;

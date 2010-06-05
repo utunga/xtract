@@ -49,17 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IUrlExpander.cs" />
-    <Compile Include="Common\Tokenizer.cs" />
-    <Compile Include="Common\UrlExpander.cs" />
+    <Compile Include="Net\IResponseReader.cs" />
+    <Compile Include="Net\ResponseReader.cs" />
+    <Compile Include="Words\IUrlExpander.cs" />
+    <Compile Include="Words\MessageBus.cs" />
+    <Compile Include="Words\MessageProcessor.cs" />
+    <Compile Include="Words\Tokenizer.cs" />
+    <Compile Include="Words\UrlExpander.cs" />
     <Compile Include="IMessageReceiver.cs" />
     <Compile Include="IExceptionReceiver.cs" />
     <Compile Include="IMessageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trigram\LanguageModel.cs" />
+    <Compile Include="Twitter\UserStatusProvider.cs" />
     <Compile Include="Twitter\EnglishStatusProvider.cs" />
+    <Compile Include="Twitter\JSON.cs" />
     <Compile Include="Twitter\TwitterStatus.cs" />
-    <Compile Include="Twitter\TwitterStatusProvider.cs" />
+    <Compile Include="Twitter\TwitterStreamStatusProvider.cs" />
     <Compile Include="Twitter\TwitterUser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

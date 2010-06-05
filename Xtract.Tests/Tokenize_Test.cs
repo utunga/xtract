@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using XtractLib.Common;
+using XtractLib.Words;
 
 [TestFixture]
 public class Tokenize_Test

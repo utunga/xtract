@@ -7,13 +7,13 @@ using XtractLib.Twitter;
 public class TwitterStatusProvider_Test
 {
     // Fields
-    private TwitterStatusProvider _target;
+    private TwitterStreamStatusProvider _target;
 
     // Methods
     [SetUp]
     public void Setup()
     {
-        _target = new TwitterStatusProvider();
+        _target = new TwitterStreamStatusProvider();
         _target.UseCGICredentials("utunga", "a1ma4a5");
         _target.YieldThisMany = 10;
     }

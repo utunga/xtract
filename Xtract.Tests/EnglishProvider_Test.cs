@@ -10,7 +10,7 @@ public class EnglishStatusProvider_Test
     [SetUp]
     public void Setup()
     {
-        TwitterStatusProvider twitterStatusProvider = new TwitterStatusProvider();
+        TwitterStreamStatusProvider twitterStatusProvider = new TwitterStreamStatusProvider();
         twitterStatusProvider.UseCGICredentials("utunga", "a1ma4a5");
         twitterStatusProvider.YieldThisMany = 5;
         _target = new EnglishStatusProvider(twitterStatusProvider);
