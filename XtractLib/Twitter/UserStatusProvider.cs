@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using XtractLib.Net;
 
 namespace XtractLib.Twitter
@@ -38,8 +39,21 @@ namespace XtractLib.Twitter
                 TwitterStatus[] results;
                 using (ResponseReader reader = new ResponseReader(url, _credentials))
                 {
-                    string json = reader.ReadToEnd();
-                    Console.Out.WriteLine(json);
+                    string json= null;
+                    while (json == null)
+                    {
+                        try
+                        {
+                            json = reader.ReadToEnd();
+                        }
+                        catch (WebException ex)
+                        {
+                            Console.Out.WriteLine("Error getting TwitterStatus for :" + url  + ex.Message);
+                            Thread.Sleep(500); // give it 1/2 a second
+                        }
+                    } 
+                    
+                    //Console.Out.WriteLine(json);
                     results = JSON.Deserialize<TwitterStatus[]>(json);
                 }
                 foreach (TwitterStatus status in results)
