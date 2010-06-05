@@ -1,16 +1,22 @@
 ﻿
 
 using System.Collections.Generic;
+using XtractLib.Trigram;
 
 namespace XtractLib.Twitter
 {
     public class EnglishStatusProvider : IMessageProvider<TwitterStatus>
     {
-        IMessageProvider<TwitterStatus> _statusProvider;
+        readonly IMessageProvider<TwitterStatus> _statusProvider;
+        readonly LanguageModel _english;
 
-        public EnglishStatusProvider(IMessageProvider<TwitterStatus> statusProvider)
+        public double Threshold { get; set; }
+
+        public EnglishStatusProvider(IMessageProvider<TwitterStatus> statusProvider, string directoryWithEnglishLanguageTextFiles)
         {
             _statusProvider = statusProvider;
+            Threshold = 1.5d; 
+            _english = ModelFactory.LoadModelFromFolder(directoryWithEnglishLanguageTextFiles);
         }
 
         public IEnumerable<TwitterStatus> GetMessages()
@@ -19,7 +25,11 @@ namespace XtractLib.Twitter
             {
                 if (status.user != null && status.user.lang == "en")
                 {
-                    yield return status;
+                    LanguageModel smallModel = new LanguageModel(status.text);
+                    if (smallModel.Similarity(_english) > Threshold)
+                    {
+                        yield return status;
+                    }
                 }
             }
         }

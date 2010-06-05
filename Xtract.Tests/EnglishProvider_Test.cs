@@ -13,7 +13,8 @@ public class EnglishStatusProvider_Test
         TwitterStreamStatusProvider twitterStatusProvider = new TwitterStreamStatusProvider();
         twitterStatusProvider.UseCGICredentials("utunga", "a1ma4a5");
         twitterStatusProvider.YieldThisMany = 5;
-        _target = new EnglishStatusProvider(twitterStatusProvider);
+        _target = new EnglishStatusProvider(twitterStatusProvider, "data");
+        _target.Threshold = 0.05d;
     }
 
     [Test]

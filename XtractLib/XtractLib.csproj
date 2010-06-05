@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Net\IResponseReader.cs" />
     <Compile Include="Net\ResponseReader.cs" />
+    <Compile Include="Trigram\ModelFactory.cs" />
     <Compile Include="Words\IUrlExpander.cs" />
     <Compile Include="Words\MessageBus.cs" />
     <Compile Include="Words\MessageProcessor.cs" />
