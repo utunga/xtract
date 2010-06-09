@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeUtils_Test.cs" />
     <Compile Include="RateLimitCheck_Test.cs" />
     <Compile Include="UserStatusProvider_Test.cs" />
     <Compile Include="EnglishProvider_Test.cs" />

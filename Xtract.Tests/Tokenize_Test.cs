@@ -15,12 +15,20 @@ public class Tokenize_Test
     }
 
     [Test]
-    public void WordsTestHash()
+    public void WordsKeepHash()
     {
         string[] result = Tokenizer.GetWords("|#whatNOTtosayaftersex :: when is u leavin. U been here for a good hour now.");
         Assert.IsFalse(new List<string>(result).Contains("WhatNOTtosayaftersex"), "expect hashed words to be removed from source");
         Assert.Contains("#whatnottosayaftersex", result, "Expect hash tags to be a single word");
     }
+
+    [Test]
+    public void WordsKeepAtSymbol()
+    {
+        string[] result = Tokenizer.GetWords("@YoungBuck1232 whats up.");
+        Assert.Contains("@youngbuck1232", result,"expect @names to be kept, in lowercase");
+    }
+
 
     [Test]
     public void WordsTestFirstLetterUppered()
@@ -58,7 +66,22 @@ public class Tokenize_Test
         //Assert.That(tmp.IsMatch("it's going to be twittascope.com/?sign=3 to"), "no match on regexp");
         // note that it pulls out the url, but not the comma afterwards
         Assert.AreEqual("http://twittascope.com/?sign=3", tmp.Matches("it's going to be http://twittascope.com/?sign=3, to")[0].Value, "no match on regexp");
-         
     }
+
+    [Test]
+    public void TestApostrophe()
+    {
+        string[] result = Tokenizer.GetWords("it's going to be");
+        Assert.Contains("It's", result, "Expect apostrophes as part of words to be maintained as part of word");
+    }
+
+    [Test]
+    public void TestNoBlanks()
+    {
+        string[] result = Tokenizer.GetWords("No matter how clever you are, it's going to be http://twittascope.com/?sign=3 to av... More for Gemini ");
+        Assert.IsFalse(new List<string>(result).Contains(""), "Expect no empty strings");
+    }
+
 }
+
 

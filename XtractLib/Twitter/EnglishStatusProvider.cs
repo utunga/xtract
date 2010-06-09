@@ -26,8 +26,10 @@ namespace XtractLib.Twitter
                 if (status.user != null && status.user.lang == "en")
                 {
                     LanguageModel smallModel = new LanguageModel(status.text);
-                    if (smallModel.Similarity(_english) > Threshold)
+                    double similarity  = smallModel.Similarity(_english);
+                    if (similarity > Threshold)
                     {
+                        status.english_similarity = similarity;
                         yield return status;
                     }
                 }

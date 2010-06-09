@@ -32,7 +32,8 @@ namespace XtractLib.Twitter
             int page_count = 200;
             int count = 0;
             int page = 0;
-            while (count < MAX_PER_USER)
+            bool noMoreData = false;
+            while (count < MAX_PER_USER && !noMoreData)
             {
                 RateLimitCheck.SleepTillOKToProceed(_credentials);
                 string url = string.Format(TWITTER_USER_TIMELINE_URI, screen_name, page_count, page);
@@ -53,8 +54,11 @@ namespace XtractLib.Twitter
                         }
                     } 
                     
-                    //Console.Out.WriteLine(json);
                     results = JSON.Deserialize<TwitterStatus[]>(json);
+                    if (results.Length == 0)
+                    {
+                        noMoreData = true;
+                    }
                 }
                 foreach (TwitterStatus status in results)
                 {

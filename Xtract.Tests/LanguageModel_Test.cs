@@ -30,15 +30,46 @@ namespace Xtract.Tests
         public void EqualTextShouldBeOne()
         {
             string txt = "once upon a time there was a small boy";
-            LanguageModel model1 = new LanguageModel();
-            model1.ParseStream(new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(txt))));
-            
-            LanguageModel model2 = new LanguageModel();
-            model2.ParseStream(new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(txt))));
-            
+            LanguageModel model1 = new LanguageModel(txt);
+            LanguageModel model2 = new LanguageModel(txt);
+
             AssertPrettyMuchEqual(1.0, model1.Similarity(model2), "Expected identical strings to have similarity of 1");
             AssertPrettyMuchEqual(1.0, model2.Similarity(model1), "Expected identical strings to have similarity of 1, either way around");
         }
+
+        [Test]
+        public void SimilarTextShouldCloseBeOne()
+        {
+            string txt1 = "once upon a time there was a small boy";
+            string txt2 = "once upon a time there waz a small boy";
+            LanguageModel model1 = new LanguageModel(txt1);
+            LanguageModel model2 = new LanguageModel(txt2);
+
+            Assert.GreaterOrEqual(model1.Similarity(model2), 0.09d, "Expected very similar  strings to have similarity close 1");
+            Assert.LessOrEqual(model1.Similarity(model2), 1.0d, "Expected identical strings to have similarity of 1");
+        }
+
+        [Test]
+        public void SmallEnglishShouldHaveSimilarityOf1()
+        {
+            LanguageModel english2 = ModelFactory.LoadModelFromFolder("data");
+            AssertPrettyMuchEqual(1.0, _english.Similarity(english2), "Expected identical language models to have similarity of 1");
+            AssertPrettyMuchEqual(1.0, english2.Similarity(_english), "Expected identical language models to have similarity of 1, either way around");
+        }
+
+        [Test]
+        [Ignore("Long running test I only needed for sanity check")]
+        public void LargeEnglishShouldHaveSimilarityOf1()
+        {
+            LanguageModel english_large = ModelFactory.LoadModelFromFolder("english_data"); // takes a long time to parse
+            AssertPrettyMuchEqual(1.0, english_large.Similarity(english_large), "Expected identical large models to have similarity of 1");
+            AssertPrettyMuchEqual(1.0, english_large.Similarity(english_large), "Expected identical large models to have similarity of 1, either way around");
+
+            LanguageModel tweetModel = new LanguageModel("Aye #shoutout to all the single mothers out there doin what they gotta do to provide for their kids and themselves. u r appreciated :)");
+            Assert.LessOrEqual(1.0d, tweetModel.Similarity(english_large), "expected similarity to large model to be always less than 1");
+
+        }
+
 
         [Test]
         public void EnglishThresholdTest()

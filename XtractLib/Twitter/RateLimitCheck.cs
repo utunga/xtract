@@ -23,6 +23,7 @@ namespace XtractLib.Twitter
 
         public static void SleepTillOKToProceed(ICredentials credentials)
         {
+            int sleepSeconds = 60;
             TwitterRateLimitStatus status =null;
             while (status == null)
             {
@@ -36,10 +37,12 @@ namespace XtractLib.Twitter
                     Thread.Sleep(2*1000); // give it 2 seconds
                 }
             }
+           
             while (status.remaining_hits <= 1)
             {
-                Console.Out.WriteLine("Down to " + status.remaining_hits + " remaining hits. Will sleep for " + status.reset_time_in_seconds + " seconds (till approx: " + status.reset_time + ")");
-                Thread.Sleep(status.reset_time_in_seconds*1000);
+               
+                Console.Out.WriteLine("Down to " + status.remaining_hits + " remaining hits. Will sleep for " + sleepSeconds + " seconds (till approx: " + DateTime.Now.AddSeconds(sleepSeconds).ToString("o") + ")");
+                Thread.Sleep(sleepSeconds * 1000);
                 try
                 {
                     status = GetStatus(credentials);
@@ -49,6 +52,8 @@ namespace XtractLib.Twitter
                      Console.Out.WriteLine("Error getting status:" + ex.Message);
                      Thread.Sleep(2 * 1000); // give it 2 seconds
                 }
+
+                sleepSeconds = (int)Math.Floor(sleepSeconds * 1.2);
             }
             Console.Out.WriteLine(status.remaining_hits + " remaining twitter API hits.");
         }

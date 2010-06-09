@@ -54,6 +54,8 @@
     <Compile Include="Trigram\ModelFactory.cs" />
     <Compile Include="Twitter\RateLimitCheck.cs" />
     <Compile Include="Twitter\TwitterRateLimitStatus.cs" />
+    <Compile Include="Utils\DateUtils.cs" />
+    <Compile Include="Utils\Rfc822DateTime.cs" />
     <Compile Include="Words\IUrlExpander.cs" />
     <Compile Include="Words\MessageBus.cs" />
     <Compile Include="Words\MessageProcessor.cs" />

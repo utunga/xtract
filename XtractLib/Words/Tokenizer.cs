@@ -9,16 +9,16 @@ namespace XtractLib.Words
 
         public static string URL_REGEX = @"\b(https?)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]"; // be sure to specify IgnoreCase when you use this
         private static Regex _urlMatch;
-        private static Regex _hashMatch;
-        private static Regex _wordSplit;
+        private static Regex _hashOrAtMatch;
+        private static Regex _wordsMatch;
 
         static Tokenizer()
         {
             //way too easy ;))
             //_urlMatch = new Regex(@"http\://\S+");
             _urlMatch = new Regex(URL_REGEX, RegexOptions.IgnoreCase);
-            _hashMatch = new Regex(@"#\w+");
-            _wordSplit = new Regex(@"\W+");
+            _hashOrAtMatch = new Regex(@"[#|@]\w+");
+            _wordsMatch = new Regex(@"[\w|']+");
         }
 
         //Helper static method 
@@ -38,9 +38,9 @@ namespace XtractLib.Words
 
         public IEnumerable<string> Tokenize(string source)
         {
+            source = source.Trim();
             IEnumerable<string> urls;
             List<string> result = ProcessIntoWordsAndUrls(source, out urls);
-            //TODO: process urls
             result.AddRange(_expander.ProcessUrls(urls));
             return result;
 
@@ -52,24 +52,28 @@ namespace XtractLib.Words
             var tmpUrls = new List<string>();
             if (_urlMatch.IsMatch(source))
             {
+                string tmp = source;
                 foreach (Match match in _urlMatch.Matches(source))
                 {
                     //add to list of urls
                     tmpUrls.Add(match.Value);
                 }
                 //remove from source
-                foreach (string url in words)
+                foreach (string url in tmpUrls)
                 {
-                    source.Replace(url, "");
+                    tmp = tmp.Replace(url, "");
                 }
+                source = tmp;
             }
+           
             urls = tmpUrls; // assign out result
 
+
             //lower case hashtags, and preserve as uniq words
-            if (_hashMatch.IsMatch(source))
+            if (_hashOrAtMatch.IsMatch(source))
             {
                 string tmp = source;
-                foreach (Match match in _hashMatch.Matches(source))
+                foreach (Match match in _hashOrAtMatch.Matches(source))
                 {
                     string hashTag = match.Value;
                     
@@ -82,16 +86,23 @@ namespace XtractLib.Words
                 source = tmp;
             }
 
+            // translate words like "It's" to "Its" FIXME:need a smarter regex here
+           // source = source.Replace("'", "");
+
             //lower case the first letter of otherwords, but otherwise             
-            foreach(string word in _wordSplit.Split(source))
+            if (_wordsMatch.IsMatch(source))
             {
-                if (word.Length > 1)
+                foreach (Match match in _wordsMatch.Matches(source))
                 {
-                    words.Add(word.Substring(0, 1).ToUpperInvariant() + word.Substring(1));
-                }
-                else
-                {
-                    words.Add(word.ToUpperInvariant());
+                    string word = match.Value;
+                    if (word.Length > 1)
+                    {
+                        words.Add(word.Substring(0, 1).ToUpperInvariant() + word.Substring(1));
+                    }
+                    else if (word.Length == 1)
+                    {
+                        words.Add(word.ToUpperInvariant());
+                    }
                 }
             }
 

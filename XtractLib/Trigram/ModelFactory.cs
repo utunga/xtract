@@ -17,7 +17,7 @@ namespace XtractLib.Trigram
                
                 using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    using (StreamReader reader = new StreamReader(stream))
+                    using (StreamReader reader = new StreamReader(stream, Encoding.UTF32))
                     {
                         model.ParseStream(reader);
                     }

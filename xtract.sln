@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtract.Tests", "Xtract.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XtractLib", "XtractLib\XtractLib.csproj", "{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XtractLinq", "XtractLinq\XtractLinq.csproj", "{8CF800C3-0D4F-4243-AE3A-D768F3C4BE1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF800C3-0D4F-4243-AE3A-D768F3C4BE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF800C3-0D4F-4243-AE3A-D768F3C4BE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF800C3-0D4F-4243-AE3A-D768F3C4BE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF800C3-0D4F-4243-AE3A-D768F3C4BE1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
