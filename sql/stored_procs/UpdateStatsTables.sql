@@ -1,6 +1,6 @@
 USE [tweets]
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStatsTables]    Script Date: 06/09/2010 22:45:47 ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStatsTables]    Script Date: 06/10/2010 00:48:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -34,11 +34,12 @@ BEGIN
 	order by  screen_name
 
 	INSERT INTO stat_word
-    select [text], count(distinct(screen_name))
+    select [text], count(distinct(screen_name)), null, null, null
 	from word 
 	group by [text]
 	order by  [text]
 
+	--ok we're ready to calculate actual tf_idf
     UPDATE stat_termcount
 	SET tf_idf = 
 	 convert(float, [count])/convert(float,stat_user.word_count)*
@@ -47,10 +48,27 @@ BEGIN
 	where stat_user.screen_name=stat_termcount.screen_name
     and  stat_word.[text]=stat_termcount.[text]
 
-	UPDATE stat_word 
-	set avg_tf_idf=avg(tf_idf)
+	-- find average tf_idf (a questionable procedure at best)
+    UPDATE stat_word 
+	set avg_tf_idf=
+    (select avg(tf_idf)
 	FROM stat_termcount tc
-	WHERE stat_word.[text] = tc.[text] 
+	WHERE stat_word.[text] = tc.[text]),
+    avg_count=
+    (select avg(convert(float,[count]))
+	FROM stat_termcount tc
+	WHERE stat_word.[text] = tc.[text]),
+	included=0
+
+	-- decide which should be 'included' vectors
+	UPDATE stat_word 
+    set included=1
+    where [text]
+    in (select top 1000 [text]
+    from stat_word
+	where stat_word.user_count>1
+	and stat_word.avg_count>1
+    order by avg_tf_idf desc)
 
 	commit transaction
 
