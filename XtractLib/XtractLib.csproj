@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -36,9 +36,11 @@
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -51,6 +53,9 @@
   <ItemGroup>
     <Compile Include="Net\IResponseReader.cs" />
     <Compile Include="Net\ResponseReader.cs" />
+    <Compile Include="OAuth\OAuthBase.cs" />
+    <Compile Include="OAuth\OAuthTwitter.cs" />
+    <Compile Include="OAuth\TwitterAuth.cs" />
     <Compile Include="Trigram\ModelFactory.cs" />
     <Compile Include="Twitter\RateLimitCheck.cs" />
     <Compile Include="Twitter\TwitterRateLimitStatus.cs" />
@@ -72,6 +77,9 @@
     <Compile Include="Twitter\TwitterStatus.cs" />
     <Compile Include="Twitter\TwitterStreamStatusProvider.cs" />
     <Compile Include="Twitter\TwitterUser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OAuth\ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
