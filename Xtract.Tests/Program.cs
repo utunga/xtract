@@ -10,6 +10,17 @@ namespace Xtract.Tests
     {
         private static void Main(string[] args)
         {
+            OAuthTest();
+        }
+
+        private static void OAuthTest()
+        {
+            OAuth_Test test = new OAuth_Test();
+            test.OAuthSequence();
+        }
+
+        private static void SimilarityTest()
+        {
             List<string> examples = new List<string>() {
                 "so i said, hey what are you doing?",
                 "If you're wanting tickets for tomorrow night's home opener or any night at \"The Swamp\", call the 'Dogs front office at 910-426-5900",
@@ -39,6 +50,5 @@ namespace Xtract.Tests
                 Console.Out.WriteLine(example.Key + "|" + example.Value);
             }
         }
-
     }
 }

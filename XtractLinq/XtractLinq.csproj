@@ -62,7 +62,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Tasks\UpdateSimilarityScores.cs" />
-    <Compile Include="twuser.cs" />
+    <Compile Include="Twuser.cs" />
     <Compile Include="Xtract.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

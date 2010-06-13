@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74850EC2-D1E7-462A-A963-8F9B1F7EC60C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -77,9 +77,6 @@
     <Compile Include="Twitter\TwitterStatus.cs" />
     <Compile Include="Twitter\TwitterStreamStatusProvider.cs" />
     <Compile Include="Twitter\TwitterUser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OAuth\ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

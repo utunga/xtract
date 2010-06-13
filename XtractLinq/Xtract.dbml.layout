@@ -14,10 +14,10 @@
         <elementListCompartment Id="1736f90d-75d2-47ad-8c8b-0165002e0937" absoluteBounds="3.765, 1.21, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b9a70fca-684f-4e01-9769-df8160c4f2ee" absoluteBounds="0.75, 3.75, 2, 2.2465844726562505">
+    <classShape Id="b9a70fca-684f-4e01-9769-df8160c4f2ee" absoluteBounds="1, 2.625, 2, 2.2465844726562505">
       <DataClassMoniker Name="/XtractDataContext/Twuser" />
       <nestedChildShapes>
-        <elementListCompartment Id="860789f7-9733-4151-98fe-cfdefd969619" absoluteBounds="0.765, 4.21, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="860789f7-9733-4151-98fe-cfdefd969619" absoluteBounds="1.0150000000000001, 3.085, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

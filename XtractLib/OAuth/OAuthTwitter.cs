@@ -53,18 +53,20 @@ namespace XtractLib.OAuth
         /// Get the link to Twitter's authorization page for this application.
         /// </summary>
         /// <returns>The url with a valid request token, or a null string.</returns>
-        public string AuthorizationLinkGet()
+        public string AuthorizationLinkGet(out string oAuthToken)
         {
             string ret = null;
 
             string response = OAuthWebRequest(Method.GET, REQUEST_TOKEN, String.Empty);
+            oAuthToken = "ERROR OCCURED NO oAuthToken in response";
             if (response.Length > 0)
             {
                 //response contains token and token secret.  We only need the token.
                 NameValueCollection qs = HttpUtility.ParseQueryString(response);
                 if (qs["oauth_token"] != null)
                 {
-                    ret = AUTHORIZE + "?oauth_token=" + qs["oauth_token"];
+                    oAuthToken = qs["oauth_token"];
+                    ret = AUTHORIZE + "?oauth_token=" + oAuthToken;
                 }
             }
             return ret;
@@ -206,9 +208,9 @@ namespace XtractLib.OAuth
                 {
                     requestWriter.Write(postData);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw;
+                    throw ex;
                 }
                 finally
                 {
@@ -240,9 +242,9 @@ namespace XtractLib.OAuth
                 responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
                 responseData = responseReader.ReadToEnd();
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
