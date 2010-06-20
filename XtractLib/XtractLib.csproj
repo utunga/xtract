@@ -51,13 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Net\IResponseBuilder.cs" />
     <Compile Include="Net\IResponseReader.cs" />
+    <Compile Include="Net\WebMethod.cs" />
+    <Compile Include="Net\WebResponseBuilder.cs" />
     <Compile Include="Net\ResponseReader.cs" />
     <Compile Include="OAuth\OAuthBase.cs" />
-    <Compile Include="OAuth\OAuthTwitter.cs" />
+    <Compile Include="OAuth\OAuthTwitterResponseBuilder.cs" />
     <Compile Include="OAuth\TwitterAuth.cs" />
     <Compile Include="Trigram\ModelFactory.cs" />
     <Compile Include="Twitter\RateLimitCheck.cs" />
+    <Compile Include="Twitter\TwitterHappy.cs" />
     <Compile Include="Twitter\TwitterRateLimitStatus.cs" />
     <Compile Include="Utils\DateUtils.cs" />
     <Compile Include="Utils\Rfc822DateTime.cs" />

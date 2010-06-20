@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using Offr.Text;
+using XtractLib.OAuth;
 using XtractLib.Twitter;
 
 namespace XtractLinq.Tasks
@@ -12,9 +13,7 @@ namespace XtractLinq.Tasks
     {
         public void Execute()
         {
-            string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
-            string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
-
+            
             int count = 0;
             XtractDataContext db = new XtractDataContext();
             foreach (Twuser user in from twuser in db.Twusers
@@ -31,8 +30,9 @@ namespace XtractLinq.Tasks
                     Console.Out.WriteLine("Skipping retrieve for  @" + user.screen_name + " as we already have " + existingCount + " rows of data");
                     continue;
                 }
-                UserStatusProvider provider = new UserStatusProvider(user.screen_name);
-                provider.UseCGICredentials(twitter_api_username, twitter_api_password);
+
+                OAuthTwitterResponseBuilder oAuthTwitter = new OAuthTwitterResponseBuilder();
+                UserStatusProvider provider = new UserStatusProvider(oAuthTwitter, user.screen_name);
                 Console.Out.WriteLine("About to request data for @" + user.screen_name);
                 DateTime nowish = DateTime.UtcNow;
                 foreach (TwitterStatus status in provider.GetMessages())
@@ -58,9 +58,7 @@ namespace XtractLinq.Tasks
                         }
                     }
                 }
-
             }
-
         }
     }
 }

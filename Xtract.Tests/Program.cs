@@ -10,13 +10,19 @@ namespace Xtract.Tests
     {
         private static void Main(string[] args)
         {
-            OAuthTest();
+            OAuthCheck();
         }
 
         private static void OAuthTest()
         {
             OAuth_Test test = new OAuth_Test();
-            test.OAuthSequence();
+            test.OAuthAuthorizeSequence();
+        }
+
+        private static void OAuthCheck()
+        {
+            OAuth_Test test = new OAuth_Test();
+            test.OAuthCheck();
         }
 
         private static void SimilarityTest()

@@ -5,20 +5,23 @@ using System.Web;
 using System.Net;
 using System.IO;
 using System.Collections.Specialized;
+using XtractLib.Net;
 
 namespace XtractLib.OAuth
 {
-    public class OAuthTwitter : OAuthBase
+    public class OAuthTwitterResponseBuilder : OAuthBase, IResponseBuilder
     {
-        public enum Method { GET, POST };
-        public const string REQUEST_TOKEN = "http://twitter.com/oauth/request_token";
-        public const string AUTHORIZE = "http://twitter.com/oauth/authorize";
-        public const string ACCESS_TOKEN = "http://twitter.com/oauth/access_token";
+       
+        public const string REQUEST_TOKEN = "http://api.twitter.com/oauth/request_token";
+        public const string AUTHORIZE = "http://api.twitter.com/oauth/authorize";
+        public const string ACCESS_TOKEN = "http://api.twitter.com/oauth/access_token";
 
         private string _consumerKey = "";
         private string _consumerSecret = "";
         private string _token = "";
         private string _tokenSecret = "";
+        private string _oAuthVerifier = "";
+        private string _callBackUrl = "";
 
         #region Properties
         public string ConsumerKey 
@@ -27,7 +30,7 @@ namespace XtractLib.OAuth
             {
                 if (_consumerKey.Length == 0)
                 {
-                    _consumerKey = ConfigurationManager.AppSettings["consumerKey"];
+                    _consumerKey = ConfigurationManager.AppSettings["consumerKey"] ?? "";
                 }
                 return _consumerKey; 
             } 
@@ -38,15 +41,54 @@ namespace XtractLib.OAuth
             get {
                 if (_consumerSecret.Length == 0)
                 {
-                    _consumerSecret = ConfigurationManager.AppSettings["consumerSecret"];
+                    _consumerSecret = ConfigurationManager.AppSettings["consumerSecret"] ?? "";
                 }
                 return _consumerSecret; 
-            } 
-            set { _tokenSecret = value; } 
+            }
+            set { _consumerSecret = value; } 
         }
 
-        public string Token { get { return _token; } set { _token = value; } }
-        public string TokenSecret { get { return _tokenSecret; } set { _tokenSecret = value; } }
+        public string Token
+        {
+            get
+            {
+                if (_token.Length == 0)
+                {
+                    _token = ConfigurationManager.AppSettings["oAuthToken"] ?? "";
+                }
+                return _token;
+            }
+            set { _token = value; }
+        }
+
+        public string OAuthVerifier
+        {
+            get
+            {
+                if (_oAuthVerifier.Length == 0)
+                {
+                    _oAuthVerifier = ConfigurationManager.AppSettings["oAuthVerifier"] ?? "";
+                }
+                return _oAuthVerifier;
+            }
+            set { _oAuthVerifier = value; }
+        }
+
+        public string TokenSecret
+        {
+            get
+            {
+                if (_tokenSecret.Length == 0)
+                {
+                    _tokenSecret = ConfigurationManager.AppSettings["tokenSecret"] ?? "";
+                }
+                return _tokenSecret;
+            }
+            set { _tokenSecret = value; }
+        }
+
+        public string CallBackUrl { get { return _callBackUrl; } set { _callBackUrl = value; } }
+
         #endregion
 
         /// <summary>
@@ -57,8 +99,9 @@ namespace XtractLib.OAuth
         {
             string ret = null;
 
-            string response = OAuthWebRequest(Method.GET, REQUEST_TOKEN, String.Empty);
+            IResponseReader reader = GetResponseReader(WebMethod.GET, REQUEST_TOKEN, String.Empty);
             oAuthToken = "ERROR OCCURED NO oAuthToken in response";
+            string response = reader.ReadToEnd();
             if (response.Length > 0)
             {
                 //response contains token and token secret.  We only need the token.
@@ -80,7 +123,8 @@ namespace XtractLib.OAuth
         {
             this.Token = authToken;
 
-            string response = OAuthWebRequest(Method.GET, ACCESS_TOKEN, String.Empty);
+            IResponseReader reader = GetResponseReader(WebMethod.GET, ACCESS_TOKEN, String.Empty);
+            string response = reader.ReadToEnd();
 
             if (response.Length > 0)
             {
@@ -98,22 +142,31 @@ namespace XtractLib.OAuth
         }
         
         /// <summary>
+        /// Submit a GET web request using oAuth.
+        /// </summary>
+        /// <param name="url">The full url, including the querystring.</param>
+        /// <returns>The web server response.</returns>
+        public IResponseReader GetResponseReader(string url)
+        {
+            return GetResponseReader(WebMethod.GET, url, string.Empty);
+        }
+
+        /// <summary>
         /// Submit a web request using oAuth.
         /// </summary>
         /// <param name="method">GET or POST</param>
         /// <param name="url">The full url, including the querystring.</param>
         /// <param name="postData">Data to post (querystring format)</param>
         /// <returns>The web server response.</returns>
-        public string OAuthWebRequest(Method method, string url, string postData)
+        public IResponseReader GetResponseReader(WebMethod method, string url, string postData)
         {
             string outUrl = "";
             string querystring = "";
             string ret = "";
 
-
             //Setup postData for signing.
             //Add the postData to the querystring.
-            if (method == Method.POST)
+            if (method == WebMethod.POST)
             {
                 if (postData.Length > 0)
                 {
@@ -154,16 +207,18 @@ namespace XtractLib.OAuth
                                                 this.ConsumerSecret,
                                                 this.Token,
                                                 this.TokenSecret,
+                                                this.CallBackUrl,
+                                                this.OAuthVerifier,
                                                 method.ToString(),
                                                 timeStamp,
                                                 nonce,
                                                 out outUrl,
                                                 out querystring);
 
-            querystring += "&oauth_signature=" + HttpUtility.UrlEncode(sig);
+            querystring += "&oauth_signature=" + UrlEncode(sig);
 
             //Convert the querystring to postData
-            if (method == Method.POST)
+            if (method == WebMethod.POST)
             {
                 postData = querystring;
                 querystring = "";
@@ -174,86 +229,38 @@ namespace XtractLib.OAuth
                 outUrl += "?";
             }
 
-            ret = WebRequest(method, outUrl +  querystring, postData);
-
-            return ret;
+            return new ResponseReader(method, outUrl +  querystring, postData);
         }
 
-        /// <summary>
-        /// Web Request Wrapper
-        /// </summary>
-        /// <param name="method">Http Method</param>
-        /// <param name="url">Full url to the web resource</param>
-        /// <param name="postData">Data to post in querystring format</param>
-        /// <returns>The web server response.</returns>
-        public string WebRequest(Method method, string url, string postData)
+        public string GetResponse(WebMethod method, string url, string postData)
         {
-            HttpWebRequest webRequest = null;
-            StreamWriter requestWriter = null;
-            string responseData = "";
-
-            webRequest = System.Net.WebRequest.Create(url) as HttpWebRequest;
-            webRequest.Method = method.ToString();
-            webRequest.ServicePoint.Expect100Continue = false;
-            webRequest.UserAgent  = "TwadeMe";
-            //webRequest.Timeout = 20000;
-
-            if (method == Method.POST)
-            {
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-
-                //POST the data.
-                requestWriter = new StreamWriter(webRequest.GetRequestStream());
-                try
-                {
-                    requestWriter.Write(postData);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    requestWriter.Close();
-                    requestWriter = null;
-                }
-            }
-
-            responseData = WebResponseGet(webRequest);
-
-            webRequest = null;
-
-            return responseData;
-
+            IResponseReader responseReader = GetResponseReader(method, url, postData);
+            return responseReader.ReadToEnd();
         }
 
-        /// <summary>
-        /// Process the web response.
-        /// </summary>
-        /// <param name="webRequest">The request object.</param>
-        /// <returns>The response data.</returns>
-        public string WebResponseGet(HttpWebRequest webRequest)
-        {
-            StreamReader responseReader = null;
-            string responseData = "";
+        ///// <summary>
+        ///// Process the web response.
+        ///// </summary>
+        ///// <param name="webRequest">The request object.</param>
+        ///// <returns>The response data.</returns>
+        //public string WebResponseGet(HttpWebRequest webRequest)
+        //{
+        //    StreamReader responseReader = null;
+        //    string responseData = "";
 
-            try
-            {
-                responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
-                responseData = responseReader.ReadToEnd();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                webRequest.GetResponse().GetResponseStream().Close();
-                responseReader.Close();
-                responseReader = null;
-            }
+        //    try
+        //    {
+        //        responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
+        //        responseData = responseReader.ReadToEnd();
+        //    }
+        //    finally
+        //    {
+        //        webRequest.GetResponse().GetResponseStream().Close();
+        //        if (responseReader != null) responseReader.Close();
+        //    }
+        //    return responseData;
+        //}
 
-            return responseData;
-        }
+        
     }
 }

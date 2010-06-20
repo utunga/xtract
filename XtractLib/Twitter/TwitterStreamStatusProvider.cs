@@ -8,24 +8,23 @@ namespace XtractLib.Twitter
 {
     public class TwitterStreamStatusProvider : IMessageProvider<TwitterStatus>
     {
-        private ICredentials _credentials;
         public const string TWITTER_SAMPLE_URI = "http://stream.twitter.com/1/statuses/sample.json";
 
-        public void UseCGICredentials(string username, string password)
-        {
-            _credentials = new NetworkCredential(username, password);
-        }
-
+        private readonly IResponseBuilder _responseBuilder;
+      
         public int YieldThisMany
         {
             get;
             set;
         }
-      
 
+        public TwitterStreamStatusProvider(IResponseBuilder responseBuilder)
+        {
+            _responseBuilder = responseBuilder;
+        }
         public IEnumerable<TwitterStatus> GetMessages()
         {
-            using (ResponseReader reader = new ResponseReader(TWITTER_SAMPLE_URI, _credentials))
+            using (IResponseReader reader = _responseBuilder.GetResponseReader(TWITTER_SAMPLE_URI))
             {
                 string line;
                 int count = 0;

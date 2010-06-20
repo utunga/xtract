@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using NUnit.Framework;
+using XtractLib.Net;
 using XtractLib.Twitter;
 
 [TestFixture]
@@ -14,10 +15,13 @@ public class StreamStatusProvider_Test
     [SetUp]
     public void Setup()
     {
-        _target = new TwitterStreamStatusProvider();
+
+        WebResponseBuilder responseBuilder = new WebResponseBuilder();
         string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
         string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
-        _target.UseCGICredentials(twitter_api_username, twitter_api_password);
+        responseBuilder.UseCGICredentials(twitter_api_username, twitter_api_password);
+
+        _target = new TwitterStreamStatusProvider(responseBuilder); 
         _target.YieldThisMany = 10;
     }
 

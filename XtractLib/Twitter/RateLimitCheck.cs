@@ -12,16 +12,17 @@ namespace XtractLib.Twitter
     public static class RateLimitCheck
     {
         public const string TWITTER_RATE_LIMIT_URI = "http://api.twitter.com/1/account/rate_limit_status.json";
-        public static TwitterRateLimitStatus GetStatus(ICredentials credentials)
+
+        public static TwitterRateLimitStatus GetStatus(IResponseBuilder responseBuilder)
         {
-            using (ResponseReader reader = new ResponseReader(TWITTER_RATE_LIMIT_URI, credentials))
+            using (IResponseReader reader = responseBuilder.GetResponseReader(TWITTER_RATE_LIMIT_URI))
             {
                 string json = reader.ReadToEnd();
                 return JSON.Deserialize<TwitterRateLimitStatus>(json);
             }
         }
 
-        public static void SleepTillOKToProceed(ICredentials credentials)
+        public static void SleepTillOKToProceed(IResponseBuilder responseBuilder)
         {
             int sleepSeconds = 60;
             TwitterRateLimitStatus status =null;
@@ -29,7 +30,7 @@ namespace XtractLib.Twitter
             {
                 try
                 {
-                    status = GetStatus(credentials);
+                    status = GetStatus(responseBuilder);
                 }
                 catch (WebException ex)
                 {
@@ -45,7 +46,7 @@ namespace XtractLib.Twitter
                 Thread.Sleep(sleepSeconds * 1000);
                 try
                 {
-                    status = GetStatus(credentials);
+                    status = GetStatus(responseBuilder);
                 }
                 catch (WebException ex)
                 {

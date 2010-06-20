@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using XtractLib.Net;
 using XtractLib.Twitter;
 
 namespace XtractLinq.Tasks
@@ -24,10 +25,12 @@ namespace XtractLinq.Tasks
         {
             int count = 0;
 
-            TwitterStreamStatusProvider provider = new TwitterStreamStatusProvider();
+            WebResponseBuilder responseBuilder = new WebResponseBuilder();
             string twitter_api_username = ConfigurationManager.AppSettings["twitter_user"];
             string twitter_api_password = ConfigurationManager.AppSettings["twitter_pass"];
-            provider.UseCGICredentials(twitter_api_username, twitter_api_password);
+            responseBuilder.UseCGICredentials(twitter_api_username, twitter_api_password);
+
+            TwitterStreamStatusProvider provider = new TwitterStreamStatusProvider(responseBuilder);
             provider.YieldThisMany = NUM_STATUSES_TO_PULL;
 
             Console.Out.WriteLine("Parsing english model trigrams from source data in 'english_data' directory");

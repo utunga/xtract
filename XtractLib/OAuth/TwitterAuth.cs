@@ -18,14 +18,14 @@ namespace XtractLib.OAuth
                     (HttpContext.Current.Session[USER_KEY] != null));
         }
 
-        public static OAuthTwitter CurrentSession
+        public static OAuthTwitterResponseBuilder CurrentSession
         {
             get 
             {
                 if ((HttpContext.Current != null) &&
                     (HttpContext.Current.Session[AUTH_KEY] != null))
                 {
-                    return (OAuthTwitter)HttpContext.Current.Session[AUTH_KEY];
+                    return (OAuthTwitterResponseBuilder)HttpContext.Current.Session[AUTH_KEY];
                 }
                 return null;
             }

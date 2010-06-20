@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using XtractLib.OAuth;
 
 namespace XtractLib.Net
 {
@@ -10,16 +11,26 @@ namespace XtractLib.Net
     public class ResponseReader : IDisposable, IResponseReader
     {
         private readonly ICredentials _credentials;
-        private readonly string _uri;
+
+        private readonly WebMethod _method;
+        private readonly string _url;
+        private readonly string _postData;
 
         private StreamReader _reader;
         private HttpWebRequest _request;
         private WebResponse _response;
 
-        public ResponseReader(string uri, ICredentials credentials)
+        public ResponseReader(WebMethod method, string url, string postData)
+        {
+            _method = method;
+            _url = url;
+            _postData = postData;
+        }
+
+        public ResponseReader(WebMethod method, string url, string postData, ICredentials credentials)
+            : this(method, url, postData)
         {
             _credentials = credentials;
-            _uri = uri;
         }
 
         public string ReadLine()
@@ -31,21 +42,41 @@ namespace XtractLib.Net
         public string ReadToEnd()
         {
             EnsureReader();
-            return _reader.ReadToEnd();
+            string results = _reader.ReadToEnd();
+            CloseReader();
+            return results;
         }
 
         private void EnsureReader()
         {
             if (_reader==null)
             {
-                _request = WebRequest.Create(_uri) as HttpWebRequest;
+                _request = WebRequest.Create(_url) as HttpWebRequest;
+                _request.Method = _method.ToString();
                 _request.ServicePoint.Expect100Continue = false;
-                //_request.UserAgent = "TwadeMe";
+                _request.UserAgent = "SocialMapVerse";
                 _request.Timeout = 10000;
                 if (_credentials != null)
                 {
                     _request.Credentials = _credentials;
                 }
+
+                if (_method == WebMethod.POST)
+                {
+                    _request.ContentType = "application/x-www-form-urlencoded";
+
+                    //POST the data.
+                    StreamWriter requestWriter = new StreamWriter(_request.GetRequestStream());
+                    try
+                    {
+                        requestWriter.Write(_postData);
+                    }
+                    finally
+                    {
+                        requestWriter.Close();
+                    }
+                }
+              
                 _response = _request.GetResponse();
                 _reader = new StreamReader(_response.GetResponseStream());
             } 
@@ -62,5 +93,6 @@ namespace XtractLib.Net
         {
             CloseReader();
         }
+
     }
 }
