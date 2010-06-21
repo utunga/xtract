@@ -30,12 +30,12 @@ namespace XtractLinq
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertWord(Word instance);
-    partial void UpdateWord(Word instance);
-    partial void DeleteWord(Word instance);
     partial void InsertTweet(Tweet instance);
     partial void UpdateTweet(Tweet instance);
     partial void DeleteTweet(Tweet instance);
+    partial void InsertWord(Word instance);
+    partial void UpdateWord(Word instance);
+    partial void DeleteWord(Word instance);
     partial void InsertTwuser(Twuser instance);
     partial void UpdateTwuser(Twuser instance);
     partial void DeleteTwuser(Twuser instance);
@@ -71,19 +71,19 @@ namespace XtractLinq
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Word> Words
-		{
-			get
-			{
-				return this.GetTable<Word>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Tweet> Tweets
 		{
 			get
 			{
 				return this.GetTable<Tweet>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Word> Words
+		{
+			get
+			{
+				return this.GetTable<Word>();
 			}
 		}
 		
@@ -100,147 +100,6 @@ namespace XtractLinq
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), twitter_id, english_similarity);
 			return ((int)(result.ReturnValue));
-		}
-		
-		[Function(Name="dbo.UpdateStatsTables")]
-		public int UpdateStatsTables()
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((int)(result.ReturnValue));
-		}
-	}
-	
-	[Table(Name="dbo.word")]
-	public partial class Word : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private string _screen_name;
-		
-		private string _text;
-		
-		private System.Nullable<long> _twitter_id;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void Onscreen_nameChanging(string value);
-    partial void Onscreen_nameChanged();
-    partial void OntextChanging(string value);
-    partial void OntextChanged();
-    partial void Ontwitter_idChanging(System.Nullable<long> value);
-    partial void Ontwitter_idChanged();
-    #endregion
-		
-		public Word()
-		{
-			OnCreated();
-		}
-		
-		[Column(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_screen_name", DbType="NVarChar(255)")]
-		public string screen_name
-		{
-			get
-			{
-				return this._screen_name;
-			}
-			set
-			{
-				if ((this._screen_name != value))
-				{
-					this.Onscreen_nameChanging(value);
-					this.SendPropertyChanging();
-					this._screen_name = value;
-					this.SendPropertyChanged("screen_name");
-					this.Onscreen_nameChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_text", DbType="NVarChar(255)")]
-		public string text
-		{
-			get
-			{
-				return this._text;
-			}
-			set
-			{
-				if ((this._text != value))
-				{
-					this.OntextChanging(value);
-					this.SendPropertyChanging();
-					this._text = value;
-					this.SendPropertyChanged("text");
-					this.OntextChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_twitter_id", DbType="BigInt")]
-		public System.Nullable<long> twitter_id
-		{
-			get
-			{
-				return this._twitter_id;
-			}
-			set
-			{
-				if ((this._twitter_id != value))
-				{
-					this.Ontwitter_idChanging(value);
-					this.SendPropertyChanging();
-					this._twitter_id = value;
-					this.SendPropertyChanged("twitter_id");
-					this.Ontwitter_idChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -474,6 +333,140 @@ namespace XtractLinq
 		}
 	}
 	
+	[Table(Name="dbo.word")]
+	public partial class Word : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _screen_name;
+		
+		private string _text;
+		
+		private System.Nullable<long> _twitter_id;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Onscreen_nameChanging(string value);
+    partial void Onscreen_nameChanged();
+    partial void OntextChanging(string value);
+    partial void OntextChanged();
+    partial void Ontwitter_idChanging(System.Nullable<long> value);
+    partial void Ontwitter_idChanged();
+    #endregion
+		
+		public Word()
+		{
+			OnCreated();
+		}
+		
+		[Column(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_screen_name", DbType="NVarChar(255)")]
+		public string screen_name
+		{
+			get
+			{
+				return this._screen_name;
+			}
+			set
+			{
+				if ((this._screen_name != value))
+				{
+					this.Onscreen_nameChanging(value);
+					this.SendPropertyChanging();
+					this._screen_name = value;
+					this.SendPropertyChanged("screen_name");
+					this.Onscreen_nameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_text", DbType="NVarChar(255)")]
+		public string text
+		{
+			get
+			{
+				return this._text;
+			}
+			set
+			{
+				if ((this._text != value))
+				{
+					this.OntextChanging(value);
+					this.SendPropertyChanging();
+					this._text = value;
+					this.SendPropertyChanged("text");
+					this.OntextChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_twitter_id", DbType="BigInt")]
+		public System.Nullable<long> twitter_id
+		{
+			get
+			{
+				return this._twitter_id;
+			}
+			set
+			{
+				if ((this._twitter_id != value))
+				{
+					this.Ontwitter_idChanging(value);
+					this.SendPropertyChanging();
+					this._twitter_id = value;
+					this.SendPropertyChanged("twitter_id");
+					this.Ontwitter_idChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[Table(Name="dbo.twuser")]
 	public partial class Twuser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -498,6 +491,8 @@ namespace XtractLinq
 		
 		private System.Nullable<double> _english_similarity;
 		
+		private string _last_parse_status;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -520,6 +515,8 @@ namespace XtractLinq
     partial void Onfollower_countChanged();
     partial void Onenglish_similarityChanging(System.Nullable<double> value);
     partial void Onenglish_similarityChanged();
+    partial void Onlast_parse_statusChanging(string value);
+    partial void Onlast_parse_statusChanged();
     #endregion
 		
 		public Twuser()
@@ -703,6 +700,26 @@ namespace XtractLinq
 					this._english_similarity = value;
 					this.SendPropertyChanged("english_similarity");
 					this.Onenglish_similarityChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_last_parse_status", DbType="NVarChar(50)")]
+		public string last_parse_status
+		{
+			get
+			{
+				return this._last_parse_status;
+			}
+			set
+			{
+				if ((this._last_parse_status != value))
+				{
+					this.Onlast_parse_statusChanging(value);
+					this.SendPropertyChanging();
+					this._last_parse_status = value;
+					this.SendPropertyChanged("last_parse_status");
+					this.Onlast_parse_statusChanged();
 				}
 			}
 		}

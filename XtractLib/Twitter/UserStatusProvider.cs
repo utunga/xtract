@@ -12,7 +12,7 @@ namespace XtractLib.Twitter
     public class UserStatusProvider : IMessageProvider<TwitterStatus>
     {
         public const int MAX_PER_USER = 3200;
-        public const int MAX_TRIES_FOR_SAME_URL = 6; //some users are just 'blocked' but give 401 Unauthorized errors.. so when that happens we eventually give up on them
+        public const int MAX_TRIES_FOR_SAME_URL = 4; //some users are just 'blocked' but give 401 Unauthorized errors.. so when that happens we eventually give up on them
         public const string TWITTER_USER_TIMELINE_URI = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}&page={2}";
         
         private readonly string _forScreenName;

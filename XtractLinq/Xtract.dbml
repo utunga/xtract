@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="tweets" Class="XtractDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=NYCSIS02\CSNEXT;Initial Catalog=tweets;Integrated Security=True" SettingsObjectName="XtractLinq.Properties.Settings" SettingsPropertyName="tweetsConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.word" Member="Words">
-    <Type Name="Word">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="screen_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="text" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="twitter_id" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tweet" Member="Tweets">
     <Type Name="Tweet">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -19,6 +11,14 @@
       <Column Name="date_tweeted" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="english_similarity" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="sample_reason" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.word" Member="Words">
+    <Type Name="Word">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="screen_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="text" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="twitter_id" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.twuser" Member="Twusers">
@@ -32,14 +32,12 @@
       <Column Name="profile_image_url" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="follower_count" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="english_similarity" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="last_parse_status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="dbo.SetTweetEnglishSimilarity" Method="SetTweetEnglishSimilarity">
     <Parameter Name="twitter_id" Type="System.Int64" DbType="BigInt" />
     <Parameter Name="english_similarity" Type="System.Double" DbType="Float" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.UpdateStatsTables" Method="UpdateStatsTables">
     <Return Type="System.Int32" />
   </Function>
 </Database>
