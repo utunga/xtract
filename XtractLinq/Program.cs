@@ -27,7 +27,13 @@ namespace XtractLinq
                     IUrlExpander expander = new UrlExpander();
                     Tokenizer tokenizer = new Tokenizer(expander);
                     task = new GenerateWords(tokenizer);
-                    break; 
+                    break;
+               
+                case "PushToCouch":
+                    IUrlExpander expander1 = new UrlExpander();
+                    Tokenizer tokenizer1 = new Tokenizer(expander1);
+                    task = new PushAllDataToCouch(tokenizer1);
+                    break;
 
                 case "UpdateSimilarityScores":
                     task = new UpdateSimilarityScores();
@@ -48,7 +54,7 @@ namespace XtractLinq
 
         static void PrintUsageAndExit()
         {
-            Console.Out.WriteLine("Usage: Xtract [SampleStream|GenerateWords|UpdateSimilarityScores|DownloadCandidatesData]");
+            Console.Out.WriteLine("Usage: Xtract [SampleStream|GenerateWords|PushToCouch|UpdateSimilarityScores|DownloadCandidatesData]");
             Environment.Exit(1);
         }
     }

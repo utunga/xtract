@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using XtractLib.Linq;
 using XtractLib.Trigram;
 using XtractLib.Twitter;
 

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Xtract">
+  <DataContextMoniker Name="/XtractDataContext" />
+  <nestedChildShapes>
+    <classShape Id="499d78a9-5cb8-4dee-b419-44f69d45a91c" absoluteBounds="0.875, 0.75, 2, 2.0822371419270831">
+      <DataClassMoniker Name="/XtractDataContext/Tweet" />
+      <nestedChildShapes>
+        <elementListCompartment Id="17874c08-123e-4568-b7fd-0729f5f5dfb9" absoluteBounds="0.89, 1.21, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="521ef22d-7e67-4665-a8e4-da9a9ab84c5b" absoluteBounds="3.75, 0.75, 2, 1.424847819010417">
+      <DataClassMoniker Name="/XtractDataContext/Word" />
+      <nestedChildShapes>
+        <elementListCompartment Id="72229268-1ced-4907-9f50-97363ece6eb3" absoluteBounds="3.765, 1.21, 1.9700000000000002, 0.86484781901041663" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="aab6f907-2d39-4c0f-bac3-798a14adc035" absoluteBounds="2.375, 3, 2, 2.4109318033854166">
+      <DataClassMoniker Name="/XtractDataContext/Twuser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6cd3c6b1-9c23-4d81-925f-ee173beb42b7" absoluteBounds="2.39, 3.46, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

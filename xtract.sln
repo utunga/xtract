@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xtract", "xtract\xtract.csproj", "{E1C3C8AE-BD68-4816-B0CA-D249926DA7AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtract.Tests", "Xtract.Tests\Xtract.Tests.csproj", "{B3C54EF4-84D9-46E3-8FF5-E19705C539DC}"

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace XtractLib.Twitter
@@ -19,6 +21,17 @@ namespace XtractLib.Twitter
                 }
             }
             return result;
+        }
+
+        public static string Serialize(object toSerialize) 
+        {
+
+            StringBuilder result = new StringBuilder();
+            using (JsonTextWriter jsonWriter = new JsonTextWriter(new StringWriter(result)))
+            {
+                 new JsonSerializer().Serialize(jsonWriter, toSerialize);
+            }
+            return result.ToString();
         }
     }
 }

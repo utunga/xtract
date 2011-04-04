@@ -30,7 +30,7 @@ namespace Xtract.Tests
         {
             OAuthTwitterResponseBuilder twitterAuth = new OAuthTwitterResponseBuilder();
          
-             string url = "http://twitter.com/account/verify_credentials.xml";
+            string url = "http://twitter.com/account/verify_credentials.xml";
             string xml = twitterAuth.GetResponse(WebMethod.GET, url, String.Empty);
             Console.Out.WriteLine(xml);
         }

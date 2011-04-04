@@ -72,18 +72,21 @@ namespace XtractLib.Twitter
                 if (!noMoreData)
                 {
                     results = JSON.Deserialize<TwitterStatus[]>(json);
-                    if (results.Length == 0)
+                    if (results == null || results.Length == 0)
                     {
                         noMoreData = true;
                     }
-
-                    foreach (TwitterStatus status in results)
+                    else
                     {
-                        if (count++ > MAX_PER_USER)
+
+                        foreach (TwitterStatus status in results)
                         {
-                            break;
+                            if (count++ > MAX_PER_USER)
+                            {
+                                break;
+                            }
+                            yield return status;
                         }
-                        yield return status;
                     }
                 }
                 page++;

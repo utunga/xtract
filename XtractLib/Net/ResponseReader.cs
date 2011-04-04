@@ -35,15 +35,28 @@ namespace XtractLib.Net
 
         public string ReadLine()
         {
+
             EnsureReader();
             return _reader.ReadLine();
+
         }
 
         public string ReadToEnd()
         {
-            EnsureReader();
-            string results = _reader.ReadToEnd();
-            CloseReader();
+            string results;
+            try
+            {
+                EnsureReader();
+                results = _reader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                results = "";
+            }
+            finally 
+            {
+                 CloseReader();
+            }
             return results;
         }
 
@@ -84,9 +97,15 @@ namespace XtractLib.Net
 
         private void CloseReader()
         {
-            if (_request != null) _request.Abort();
-            if (_response != null) _response.Close();
-            if (_reader != null) _reader.Close();
+            //try
+            //{
+                if (_request != null) _request.Abort();
+                if (_response != null) _response.Close();
+                if (_reader != null) _reader.Close();
+            //}
+            //catch (Exception ex) {
+            //    Console.Out.WriteLine("Exception occured while closing reader:" + ex.Message + "\n\n" + ex.StackTrace);
+            //}
         }
 
         public void Dispose()

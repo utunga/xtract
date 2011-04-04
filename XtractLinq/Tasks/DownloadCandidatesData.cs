@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using Offr.Text;
+using XtractLib.Linq;
 using XtractLib.OAuth;
 using XtractLib.Twitter;
 
